@@ -16,22 +16,22 @@ public class ProdutoRepository {
 		
 	/**
 	 * Return true if it was possible to add the product and false otherwise 
-	 * @param p
+	 * @param produto
 	 */
-	public boolean add(Produto p) {
+	public boolean add(Produto produto) {
 		try {
 			String sql = "INSERT INTO score.produto (nome, preco) VALUES(?, ?)";
 			con = Repository.getInstance().getConnection();
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setString(1, p.getNome());
-			stmt.setDouble(2, p.getPreco());
-			boolean ok = stmt.execute();
+			stmt.setString(1, produto.getNome());
+			stmt.setDouble(2, produto.getPreco());
+			stmt.execute();
 			con.close();
-			return ok;
+			return true;
 		} catch(Exception e) {
 			System.out.println(e);
+			return false;
 		}
-		return false;
 	}
 
 	/**
@@ -44,19 +44,18 @@ public class ProdutoRepository {
 			con = Repository.getInstance().getConnection();
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setInt(1, id);
-			boolean ok = stmt.execute();
+			stmt.execute();
 			con.close();
-			return ok;
+			return true;
 		} catch(Exception e) {
 			System.out.println(e);
+			return false;
 		}
-		return false;
 	}
 
 	/**
 	 * Return true if it was possible to change the product and false otherwise 
 	 * @param produto
-	 * @return boolean
 	 */
 	public boolean update(Produto produto) {
 		try {
@@ -68,11 +67,11 @@ public class ProdutoRepository {
 			stmt.setInt(3, produto.getId());
 			boolean ok = stmt.execute();
 			con.close();
-			return ok;
+			return true;
 		} catch(Exception e) {
 			System.out.println(e);
+			return false;
 		}
-		return false;
 	}
 
 }

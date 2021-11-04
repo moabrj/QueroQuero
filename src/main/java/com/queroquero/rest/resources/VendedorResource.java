@@ -1,10 +1,6 @@
 package com.queroquero.rest.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.queroquero.rest.model.Vendedor;
 import com.queroquero.rest.repository.VendedorRepository;
 
@@ -17,6 +13,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 @Path("vendedor")
 public class VendedorResource {
@@ -24,11 +21,11 @@ public class VendedorResource {
 	private static VendedorRepository repo = new VendedorRepository();
 	
     @GET
+    @Path("todos")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll() {
     	Gson gson = new Gson();
-    	//gson.fromJson(json, new TypeToken<List<Vendedor>>(){}.getType());
-    	String json = gson.toJson(repo.getAll());//, new TypeToken<List<Vendedor>>(){}.getType());
+    	String json = gson.toJson(repo.getAll(0));
     	return Response.ok(json).build();
     }
     
@@ -37,8 +34,7 @@ public class VendedorResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTopQuantity() {
     	Gson gson = new Gson();
-    	//gson.fromJson(json, new TypeToken<List<Vendedor>>(){}.getType());
-    	String json = gson.toJson(repo.getTopQuantity());//, new TypeToken<List<Vendedor>>(){}.getType());
+    	String json = gson.toJson(repo.getAll(1));
     	return Response.ok(json).build();
     }
     
@@ -47,8 +43,7 @@ public class VendedorResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTopValue() {
     	Gson gson = new Gson();
-    	//gson.fromJson(json, new TypeToken<List<Vendedor>>(){}.getType());
-    	String json = gson.toJson(repo.getTopValue());//, new TypeToken<List<Vendedor>>(){}.getType());
+    	String json = gson.toJson(repo.getAll(2));
     	return Response.ok(json).build();
     }
     
@@ -70,9 +65,10 @@ public class VendedorResource {
     }
     
     @DELETE
-    @Path("{matricula}")
-    public Response delete(@PathParam("matricula") int matricula) {
-    	repo.delete(matricula);
+    public Response delete(String jsonText) {
+    	Gson gson = new Gson();
+    	Vendedor v = gson.fromJson(jsonText, Vendedor.class);
+    	repo.delete(v.getMatricula());
     	return Response.ok().build();
     }
     
@@ -83,6 +79,6 @@ public class VendedorResource {
     	boolean ok = repo.update(v);
     	if(ok)
     		return Response.accepted(gson.toJson(v)).build();
-    	return Response.notModified().build();
+    	return Response.status(Status.BAD_REQUEST).build();
     }
 }

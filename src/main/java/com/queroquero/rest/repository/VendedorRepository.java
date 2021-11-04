@@ -18,89 +18,38 @@ import com.queroquero.rest.util.Repository;
 public class VendedorRepository {
 	
 	private Connection con;
-	//private String url = "jdbc:mysql://localhost:3306/score";
-	//private String user = "moabrj";
-	//private String password = "baom291091";
-	//Repository repo;
 	
 	public VendedorRepository() {
 		//repo = Repository.getInstance();
 	}
 	
 	/**
-	 * Return a simple list with all the sellers
+	 * The method receive a integer param.
+	 *  0 - Gets all sellers registered in the database
+	 *  1 - Gets the sellers list based on amount of sales (order desc)
+	 *  2 - Gets the sellers list based on total value of sales (order desc) 
+	 * @param option
 	 * @return
 	 */
-	public List<Vendedor> getAll(){
+	public List<Vendedor> getAll(int option){
 		//get data in database, put in list format and return
 		List<Vendedor> lista = new ArrayList<Vendedor>();
-		try {
-			
-			con = Repository.getInstance().getConnection();
-			String sql = "select matricula, nome from vendedor";
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-			while(rs.next()) {
-				Vendedor v = new Vendedor();
-				v.setMatricula(rs.getInt(1));
-				v.setNome(rs.getString(2));
-				lista.add(v);
-			}
-			
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-        return lista;
-	}
-	
-	/**
-	 * Return a list in order of the bests sellers (relative to quantity of sales)
-	 * @return List<Vendedor>
-	 */
-	public List<Vendedor> getTopQuantity(){
-		//get data in database, put in list format and return
-		List<Vendedor> lista = new ArrayList<Vendedor>();
-		try {
-			
-			con = Repository.getInstance().getConnection();
-			String sql = "select matricula, nome, count(idVendedor) as numeroVendas "
+		String sql = "";
+		if(option == 1) //Gets the sellers list based on amount of sales (order desc) 
+			sql = "select matricula, nome, count(idVendedor) as numeroVendas "
 					+ "from venda, vendedor where vendedor.matricula = venda.idVendedor "
 					+ "group by idVendedor order by numeroVendas desc";
+		else if(option == 2) //Gets the sellers list based on total value of sales (order desc)
+			sql = "select matricula, nome, sum(preco) as valorTotal from vendedor, "
+					+ "(select idVendedor, preco from (venda join itemsVenda on venda.id = "
+					+ "itemsVenda.idVenda) join produto on idProduto=produto.id) as temp "
+					+ "where vendedor.matricula = temp.idVendedor group by temp.idVendedor "
+					+ "order by valorTotal desc";
+		else //gets all sellers
+			sql = "select matricula, nome from vendedor";
 		
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-			while(rs.next()) {
-				Vendedor v = new Vendedor();
-				v.setMatricula(rs.getInt(1));
-				v.setNome(rs.getString(2));
-				lista.add(v);
-			}
-			
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-        return lista;
-	}
-	
-	/**
-	 * Return a list in order of the bests sellers (relative to quantity of sales)
-	 * @return List<Vendedor>
-	 */
-	public List<Vendedor> getTopValue(){
-		//get data in database, put in list format and return
-		List<Vendedor> lista = new ArrayList<Vendedor>();
 		try {
-			
 			con = Repository.getInstance().getConnection();
-			String sql = "select matricula, nome from vendedor, (select vendaProduto.idVendedor, "
-					+ "sum(preco) as totalVendido from (select idVendedor, idProduto, idVenda, "
-					+ "preco from produto, itemsVenda, venda where produto.id = itemsVenda.idProduto "
-					+ "and venda.id = itemsVenda.idVenda) as vendaProduto "
-					+ "group by vendaProduto.idVendedor order by totalVendido desc) as temp "
-					+ "where matricula = temp.idVendedor";
-		
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
@@ -109,12 +58,12 @@ public class VendedorRepository {
 				v.setNome(rs.getString(2));
 				lista.add(v);
 			}
-			
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
         return lista;
+		
 	}
 	
 	/**
@@ -194,9 +143,9 @@ public class VendedorRepository {
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, v.getNome());
 			stmt.setInt(2, v.getMatricula());
-			boolean ok = stmt.execute();
+			stmt.execute();
 			con.close();
-			return ok;
+			return true;
 		} catch(Exception e) {
 			System.out.println(e);
 		}
