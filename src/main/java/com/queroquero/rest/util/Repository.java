@@ -19,13 +19,16 @@ public final class Repository {
 	}
 	
 	public Connection getConnection() {
-		if(con==null) {
-			try {
+		try {
+			if(con==null) {
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				con = DriverManager.getConnection(url, user, password);
-			} catch(Exception e) {
-				System.out.println(e);
+			} else if (con.isClosed()) {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				con = DriverManager.getConnection(url, user, password);
 			}
+		} catch(Exception e) {
+			System.out.println(e);
 		}
 		return con;
 	}

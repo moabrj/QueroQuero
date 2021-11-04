@@ -33,6 +33,26 @@ public class VendedorResource {
     }
     
     @GET
+    @Path("maiorqnt")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTopQuantity() {
+    	Gson gson = new Gson();
+    	//gson.fromJson(json, new TypeToken<List<Vendedor>>(){}.getType());
+    	String json = gson.toJson(repo.getTopQuantity());//, new TypeToken<List<Vendedor>>(){}.getType());
+    	return Response.ok(json).build();
+    }
+    
+    @GET
+    @Path("maiorvalor")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTopValue() {
+    	Gson gson = new Gson();
+    	//gson.fromJson(json, new TypeToken<List<Vendedor>>(){}.getType());
+    	String json = gson.toJson(repo.getTopValue());//, new TypeToken<List<Vendedor>>(){}.getType());
+    	return Response.ok(json).build();
+    }
+    
+    @GET
     @Path("{matricula}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getOne(@PathParam("matricula") int matricula) {
@@ -45,7 +65,7 @@ public class VendedorResource {
     public Response add(String jsonText) {
     	Gson gson = new Gson();
     	Vendedor v = gson.fromJson(jsonText, Vendedor.class);
-    	repo.addVendedor(v);
+    	repo.add(v);
     	return Response.ok(gson.toJson(v)).build();
     }
     
