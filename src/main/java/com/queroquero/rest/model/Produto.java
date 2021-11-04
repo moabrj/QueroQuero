@@ -6,6 +6,12 @@ public class Produto {
 	private String nome;
 	private double preco;
 	
+	public Produto() {
+		this.id = 0;
+		this.nome = "";
+		this.preco = 0.0;
+	}
+	
 	public Produto(int id, String nome, double preco) {
 		super();
 		this.id = id;

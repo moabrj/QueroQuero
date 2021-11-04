@@ -1,6 +1,7 @@
 package com.queroquero.rest.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Venda {
@@ -38,7 +39,5 @@ public class Venda {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	
 
 }

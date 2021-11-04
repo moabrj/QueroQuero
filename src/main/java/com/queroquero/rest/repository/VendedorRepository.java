@@ -64,9 +64,9 @@ public class VendedorRepository {
 		try {
 			
 			con = Repository.getInstance().getConnection();
-			String sql = "select matricula, nome, count(id) "
-					+ "from venda, vendedor where matricula = idVendedor "
-					+ "group by(idVendedor) order by idVendedor desc";
+			String sql = "select matricula, nome, count(idVendedor) as numeroVendas "
+					+ "from venda, vendedor where vendedor.matricula = venda.idVendedor "
+					+ "group by idVendedor order by numeroVendas desc";
 		
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
