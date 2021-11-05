@@ -124,3 +124,4 @@ Para enviar dados para a API Rest todas as mensagens devem estar no formato JSON
 ### Erros eventuais mapeados:
 
 Caso o pojeto seja adicionado e o erro HttpServlet seja mostrado no arquivo index.jsp, basta clicar sobre o projeto com o botão direito: Properties->Targeted Runtimes. Na janela lateral selecione o servidor apache-tomcat.
+
