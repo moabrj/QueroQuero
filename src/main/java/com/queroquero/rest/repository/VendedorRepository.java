@@ -20,7 +20,7 @@ public class VendedorRepository {
 	private Connection con;
 	
 	public VendedorRepository() {
-		//repo = Repository.getInstance();
+		
 	}
 	
 	/**
@@ -78,14 +78,9 @@ public class VendedorRepository {
 			stmt.setString(1, v.getNome());
 			stmt.execute();
 			con.close();
-			if(con.isClosed()) {
-				System.out.println("A conexão foi fechada");
-			}
 		} catch(Exception e) {
 			System.out.println(e);
 		}
-		
-		//lista.add(v);
 	}
 
 	/**

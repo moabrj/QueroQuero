@@ -1,6 +1,10 @@
 package com.queroquero.rest.resources;
 
+import java.lang.reflect.Type;
+import java.util.List;
+
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.queroquero.rest.model.Produto;
 import com.queroquero.rest.repository.ProdutoRepository;
 
@@ -20,7 +24,10 @@ public class ProdutoResource {
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response get() {
-    	return Response.ok(new String("Produtos está funcionando")).build();
+		Gson gson = new Gson();
+		Type listType = new TypeToken<List<Produto>>() {}.getType();
+		String json = gson.toJson(new ProdutoRepository().get(), listType);
+    	return Response.ok(json).build();
     }
 	
 	@POST

@@ -12,6 +12,7 @@ import com.google.gson.reflect.TypeToken;
 import com.queroquero.rest.model.Produto;
 import com.queroquero.rest.model.Venda;
 import com.queroquero.rest.model.Vendedor;
+import com.queroquero.rest.repository.ProdutoRepository;
 import com.queroquero.rest.repository.VendaRepository;
 
 import jakarta.ws.rs.GET;
@@ -27,9 +28,13 @@ public class VendaResource {
 	private static VendaRepository repo = new VendaRepository();
 	
 	@GET
+	@Path("maisvendidos")
     @Produces(MediaType.APPLICATION_JSON)
     public Response get() {
-    	return Response.ok(new String("Venda está funcionando")).build();
+		Gson gson = new Gson();
+		Type listType = new TypeToken<List<Produto>>() {}.getType();
+		String json = gson.toJson(new ProdutoRepository().get(), listType);
+    	return Response.ok(json).build();
     }
 	
 	@POST

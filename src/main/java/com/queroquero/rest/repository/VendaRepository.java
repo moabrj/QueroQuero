@@ -3,6 +3,7 @@ package com.queroquero.rest.repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.queroquero.rest.model.Produto;
@@ -60,6 +61,28 @@ public class VendaRepository {
 		}
 		return 0;
 		
+	}
+	
+	/**
+	 * Return the list with the products that have the bests numbers of sales
+	 * @return
+	 */
+	public List<Produto> getBestSellingProducts(){
+		List<Produto> produtos = new ArrayList<>();
+		try {
+			String sql = "select produto.id, produto.nome, produto.preco, count(idProduto) as total "
+					+ "from itemsVenda, produto where idProduto = produto.id "
+					+ "group by itemsVenda.idProduto order by total desc";
+			Statement stmt = Repository.getInstance().getConnection().createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()) {
+				produtos.add(new Produto(rs.getInt(1), rs.getString(2), rs.getDouble(3)));
+			}
+			Repository.getInstance().getConnection().close();
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		return produtos;
 	}
 	
 
