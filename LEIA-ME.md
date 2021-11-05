@@ -118,10 +118,16 @@ Para enviar dados para a API Rest todas as mensagens devem estar no formato JSON
 ### Eclipse:
 
 
+##Modelagem alternativa
 
+###Diagrama
+O diagrama abaixo apresenta uma estrutura simplifica para servidores de aplicação. O objetivo do mapeamento ilustrado no diagrama é o atendimento escalável de requisições, isto é, o sistema possui um servidor base utilizado para atender requsições de CRUD e servidores com microserviços dedicados ao atendimento de solicitações de estatisticas (alto número de requsições).
 
+![Estrutura simplificada para sistema de alta carga escalável](/assets/images/infra.svg)
 
-### Erros eventuais mapeados:
+Para exemplificar o poder de processamento da estrutura acima, suponha que cada servidor seja capaz de atender 5000 requisições por minuto (300000/hora). Imaginando então que o sistema necessita atender 80000 requisições por minuto, bastaria aumentar de forma automatizada (uso de sistemas cloud expansíveis, exemplo Amazon Cloud) o número de servidores. Estes servidores atenderiam exclusivamente a requisições de estatisticas (endpoints especificos).
+
+## Erros eventuais mapeados:
 
 Caso o pojeto seja adicionado e o erro HttpServlet seja mostrado no arquivo index.jsp, basta clicar sobre o projeto com o botão direito: Properties->Targeted Runtimes. Na janela lateral selecione o servidor apache-tomcat.
 
