@@ -1,39 +1,48 @@
 # Quero Quero Systems
 ## Codebrain Challenge
 
-Guia para consumo de serviços:
+Guide for consumption of services::
 
-O software apresenta uma API Rest, logo, os serviços devem ser produzidos e consumidos em formato JSON atraves de verbos HTTP.
+The software presents a Rest API, so services must be produced and consumed in JSON format through HTTP verbs.
 
-O endereço base para os endpoints é: localhost:8080/rest/score/*
+The base address for endpoints is: localhost:8080/rest/score/*
 
-### VENDEDOR
-Para enviar dados para a API Rest todas as mensagens devem estar no formato JSON.
+### Salesman
+To send data to the Rest API all messages must be in JSON format.
 
-**Cadastrar** *(@POST)*
-- Endereço: localhost:8080/rest/score/vendedor
-- Exemplo de arquivo {"matricula": "0", "nome"="José"}
-- A matrícula será ingnorada no cadastro, sendo adicionada um número autômaticamente pelo SGBD.
+**Create** *(@POST)*
+- Address: localhost:8080/rest/score/vendedor
+- Sample file:
+```
+{"matricula": "0", "nome"="José"}
+```
+- The 'matricula' will be ignored in the registration, and a number will be added automatically by the SGBD.
 
-**Atualizar** *(@PUT)*
-- Endereço: localhost:8080/rest/score/vendedor
-- Exemplo de arquivo {"matricula": "4", "nome"="José"}
-- O número de matrícula deve estar correto, caso contrário não será realizada a atualização
+**Update** *(@PUT)*
+- Address: localhost:8080/rest/score/vendedor
+- Sample file:
+```
+{"matricula": "4", "nome"="José"}
+```
+- The 'matricula' number must be correct, otherwise the update will not be performed.
 
-**Deletar** *(@DELETE)
-- Endereço: localhost:8080/rest/score/vendedor
-- Exemplo de arquivo: 
+**Delete** *(@DELETE)
+- Address: localhost:8080/rest/score/vendedor
+- sample file: 
 ```
 {"matricula": "4", "nome"="sera ignorado"}
 ```
-- O campo de nome deve estar presente, mas não será considerado para remoção do vendedor 
+- The name field must be present but will not be considered for seller removal. 
 
-**Buscar um vendedor por número de matrícula** *(@GET)
-- Endereço: localhost:8080/rest/score/vendedor/{id}
-- Exemplo request: localhost:8080/rest/score/vendedor/3
-- Exemplo response: {"matricula": "3", "nome"="Marta"}
+**Search a seller by 'matricula' number** *(@GET)
+- Address: localhost:8080/rest/score/vendedor/{id}
+- Request sample: localhost:8080/rest/score/vendedor/3
+- Response sample:
+```
+{"matricula": "3", "nome"="Marta"}
+```
 
-**Listar todos os vendedores** *(@GET)
+**List all sellers** *(@GET)
 - Endereço: localhost:8080/rest/score/vendedor/todos
 - Será devolvida uma lista contendo todos os vendedores cadastrados na base de dados.
 - Exemplo de arquivo: 
@@ -41,86 +50,129 @@ Para enviar dados para a API Rest todas as mensagens devem estar no formato JSON
 [{"matricula": "1", "nome"="Marta"}, {"matricula": "2", "nome"="Joana"}]
 ```
 
-**Listar todos os vendedores por quantidade de vendas** *(@GET)
-- Endereço: localhost:8080/rest/score/vendedor/maiorqnt
-- Será devolvida uma lista contendo todos os vendedores cadastrados na base de dados.
-- Exemplo de arquivo: 
+**List all sellers by sales quantity** *(@GET)
+- Address: localhost:8080/rest/score/vendedor/maiorqnt
+- A list containing all sellers registered in the database will be returned..
+- Sample file: 
 ```
 [{"matricula": "1", "nome"="Marta"}, {"matricula": "2", "nome"="Joana"}]
 ```
 
-**Listar todos os vendedores por valor total em vendas** *(@GET)
-- Endereço: localhost:8080/rest/score/vendedor/maiorvalor
-- Será devolvida uma lista contendo todos os vendedores cadastrados na base de dados.
-- Exemplo de arquivo:
+**List all sellers by total sales amount** *(@GET)
+- Address: localhost:8080/rest/score/vendedor/maiorvalor
+- A list containing all sellers registered in the database will be returned (based on criteria).
+- Sample file:
 ```
 [{"matricula": "1", "nome"="Marta"}, {"matricula": "2", "nome"="Joana"}]
 ```
 
-### Produto:
+### Product:
 
-**Listar todos os produtos** *(@GET)
-- Endereço: localhost:8080/rest/score/produto
-- Será devolvida uma lista contendo todos os produtos cadastrados na base de dados.
-- Exemplo de arquivo:
+**List all** *(@GET)
+- Address: localhost:8080/rest/score/produto
+- A list containing all products registered in the database will be returned.
+- Sample file:
 ```
 [{"id": "1", "nome"="Ventilador", "preco": "200.0"}, {"id": "2", "nome"="Televisão", "preco":"1500.0"}]
 ```
 
-**Cadastrar um novo produto** *(@POST)
-- Endereço: localhost:8080/rest/score/produto
-- Exemplo de arquivo de entrada (JSON):
+**Create** *(@POST)
+- Address: localhost:8080/rest/score/produto
+- Input file sample (JSON):
 ```
 {"id": "0", "nome"="Ventilador", "preco": "200.0"}
 ```
-- O campo id devem conter um valor inteiro, porém a API não considera este campo, pois o valor correto será fornecido pelo SGBD.
+- The id field must contain an integer value, but the API does not consider this field, as the correct value will be provided by the DBMS.
 
-**Atualizar um produto** *(@PUT)
-- Endereço: localhost:8080/rest/score/produto
-- Exemplo de arquivo de entrada (JSON):
+**Update** *(@PUT)
+- Address: localhost:8080/rest/score/produto
+- Input file sample (JSON):
 ```
 {"id": "1", "nome"="Ventilador", "preco": "200.0"}
 ```
 
-**Remover um produto** *(@POST)
-- Endereço: localhost:8080/rest/score/produto
-- Exemplo de arquivo de entrada (JSON):
+**Delete** *(@POST)
+- Address: localhost:8080/rest/score/produto
+- Input file sample (JSON):
 ```
 {"id": "1", "nome"="Ventilador", "preco": "200.0"}
 ```
-- Os campos nome e preço devem estar presentes e preenchidos, poré não são considerados pela API.
+- The name and price fields must be present and filled in, but they are not considered by the API.
 
-### Venda:
+### Sale:
 
-**Cadastrar uma nova venda** *(@POST)
-- Endereço: localhost:8080/rest/score/venda
-- Exemplo de arquivo de entrada (JSON):
+**Create** *(@POST)
+- Address: localhost:8080/rest/score/venda
+- Input file sample (JSON):
 ```
 {"id": 0, "matricula": 11, "produtos": [6, 6, 6, 5]}
 ```
-- O campo id pode ser deve conter um valor inteiro, porém a API não considera o valor contido neste campo.
-- O campo matrícula faz referência a identificação do vendedor.
-- O campo 'produtos' é do tipo array. Os valores deste array são id's de produtos.
+- The id field must to contain an integer value, however the API does not consider the value contained in this field.
+- The 'matricula' field refers to the seller's identification.
+- The 'products' field is of the array type. The values of this array are product id's.
 
-**Obter lista dos produtos mais vendidos** *(@GET)
-- Endereço: localhost:8080/rest/score/venda/maisvendidos
-- Exemplo de respota:
+**Get list of best selling products** *(@GET)
+- Address: localhost:8080/rest/score/venda/maisvendidos
+- Response sample:
 ```
 [{"id": "1", "nome"="Ventilador", "preco": "200.0"}, {"id": "2", "nome"="Televisão", "preco":"1500.0"}]
 ```
 
-## Configurações:
-
-### Tomcat 10:
+## Configurations:
+In this section we present the tools used in development and the essential settings for replication of the development environment.
+Three softwares need to be mentioned: Eclipse, Tomcat 10 e MySQL.
+The only software that needs settings for the application to work correctly is MySQL (see the subsection below).
+In the case of using Tomcat, we have two options, create a server associated with the Eclipse IDE (used for development), or use a Tomcat 10 server already present on the machine. In the second scenario, it will be necessary to build the application generating the WAR and then copy the generated WAR to the respective Tomcat folder.
 
 ### MySQL:
+The MySQL version used was 8.0.27.
+The user and password for accessing the database can be changed in the Repository.java (Application) file. If you want to keep the code unchanged, you will need to create a MySQL username and password with the following informations:
 
-### Eclipse:
+**User**: queroquero
+**Password**: queroquero
+
+In the folder (/assets/dumps) you will find the SchemaAndTables.sql file for creating and inserting some sample data used in tests.
+
+## Tests
+
+Tests were performed via Postman. We chose Postman due to the nature of the Rest API which demands unit tests related to response headers and integration tests involving frontend and backend. The postman acts as the client of the relationship and allows manual or automated testing.
+
+For automated tests that should return 200 OK:
+1. Sample: localhost:8080/rest/score/vendedor/todos
+```
+pm.test("Teste 200 OK", function () {
+    pm.response.to.have.status(200);
+});
+```
+2. Sample: localhost:8080/rest/score/vendedor
+```
+pm.test("Teste 200 OK", function () {
+    pm.response.to.have.status(202);
+});
+```
+
+The same pattern was repeated for listing and inserting endpoints (except sale which was manually tested).
 
 
+## Alternative modeling
 
+### Diagram
+The diagram below presents a simplified structure for application servers. The purpose of the mapping illustrated in the diagram is the scalable service of requests. The system has a base server used to attend CRUD requests and servers with microservices dedicated to the attendance of statistical requests (high number of requests).
 
+![Simplified structure for scalable high load system](/assets/images/infra.svg)
 
-### Erros eventuais mapeados:
+To exemplify the processing power of the structure above, suppose that each server is capable of serving 5000 requests per minute (300000/hour). Assuming then that the system needs to serve 80000 requests per minute, it would be enough to automatically increase (use of expandable cloud systems, for example Amazon Cloud) the number of servers (16 servers in this scenario). These servers would exclusively serve statistical requests (specific endpoints).
 
-Caso o pojeto seja adicionado e o erro HttpServlet seja mostrado no arquivo index.jsp, basta clicar sobre o projeto com o botão direito: Properties->Targeted Runtimes. Na janela lateral selecione o servidor apache-tomcat.
+### Application Modeling Options
+**Endpoints and classes in Portuguese, but methods and comments in English**
+Normally a default language is adopted, but there were doubts regarding the end user and frontend development team, so it was chosen that certain (most visible) parts would be written in Portuguese, while more hidden details would be in English.
+
+**Implementing database queries using native Java options**
+The simplest alternative used in this case would be the combination of Jersey and Hibernate. Hibernate is a framework for mapping between objects (java) and relational database tables. With the use of Hibernate the CRUD task would be easier, as it would be enough to configure and create files (hbm.xml) or annotations on the objects that should be saved. Hibernate was not chosen beacause the aim was to demonstrate knowledge of the principles of CRUD operations, without the aid of facilitators tools.
+
+## Occasional errors:
+In this section, some errors found during development were mapped, some of them can happen when the project is imported.
+
+### Eclipse
+**HttpServlet**
+If the project is added and the HttpServlet error is shown in the index.jsp file, just click on the project with the right button: Properties->Targeted Runtimes. In the side window select the apache-tomcat server, then click apply.
