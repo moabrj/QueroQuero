@@ -8,8 +8,8 @@ public final class Repository {
 	private static Repository instance;
 	private Connection con;
 	private String url = "jdbc:mysql://localhost:3306/score";
-	private String user = "moabrj";
-	private String password = "baom291091";
+	private String user = "queroquero";
+	private String password = "queroquero";
 	
 
 	public static Repository getInstance() {
