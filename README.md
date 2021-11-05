@@ -7,7 +7,7 @@ The software presents a Rest API, so services must be produced and consumed in J
 
 The base address for endpoints is: localhost:8080/rest/score/*
 
-### VENDEDOR
+### Salesman
 To send data to the Rest API all messages must be in JSON format.
 
 **Create** *(@POST)*
@@ -132,6 +132,27 @@ The user and password for accessing the database can be changed in the Repositor
 **Password**: queroquero
 
 In the folder (/assets/dumps) you will find the SchemaAndTables.sql file for creating and inserting some sample data used in tests.
+
+## Tests
+
+Tests were performed via Postman. We chose Postman due to the nature of the Rest API which demands unit tests related to response headers and integration tests involving frontend and backend. The postman acts as the client of the relationship and allows manual or automated testing.
+
+For automated tests that should return 200 OK:
+1. Sample: localhost:8080/rest/score/vendedor/todos
+```
+pm.test("Teste 200 OK", function () {
+    pm.response.to.have.status(200);
+});
+```
+2. Sample: localhost:8080/rest/score/vendedor
+```
+pm.test("Teste 200 OK", function () {
+    pm.response.to.have.status(202);
+});
+```
+
+The same pattern was repeated for listing and inserting endpoints (except sale which was manually tested).
+
 
 ## Alternative modeling
 
